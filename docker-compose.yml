@@ -1,0 +1,42 @@
+version: '3'
+services:
+  front:
+    build: vue/.
+    volumes:
+      - ./vue:/app:cached
+      # - /vue/node_modules
+    ports:
+      - "9002:8080"
+
+  back:
+    build: node/.
+    ports:
+      - "5002:5002"
+    hostname: backend-server
+    volumes:
+      - ./node:/app
+#      - /node/node_modules
+    tty: true
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - "./mysql:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    links:
+      - mysql
+    ports:
+      - 8081:80
+    volumes:
+      - "./phpmyadmin/sessions:/sessions"
