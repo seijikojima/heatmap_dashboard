@@ -3,40 +3,22 @@ services:
   front:
     build: vue/.
     volumes:
-      - ./vue:/app:cached
-      # - /vue/node_modules
+      - ./vue:/vue
     ports:
       - "9002:8080"
 
   back:
     build: node/.
     ports:
-      - "5002:5002"
-    hostname: backend-server
+      - "80:80"
     volumes:
-      - ./node:/app
-#      - /node/node_modules
-    tty: true
+      - ./node:/node/
     depends_on:
-      - mysql
+      - mongo
 
-  mysql:
-    image: mysql:5.7
-    volumes:
-      - "./mysql:/var/lib/mysql"
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=password
-    links:
-      - mysql
+  mongo: # this name is used on url of mongodb!
+    image: "mongo:3.6"
     ports:
-      - 8081:80
+      - "27017:27017"
     volumes:
-      - "./phpmyadmin/sessions:/sessions"
+      - ./mongo:/data/db

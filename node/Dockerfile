@@ -1,10 +1,7 @@
 FROM node:lts-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-RUN npm install dotenv --save
-COPY . .
-
-EXPOSE 5002
-CMD ["npm", "start"]
+WORKDIR /node/
+COPY . /node/
+RUN npm install 
+EXPOSE 80
+CMD ["npm","run","start"]
