@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const item_router = require('./routes/items.js')
 
+
 dotenv.config()
 
 // Mongoose connection
@@ -22,6 +23,7 @@ const APP_PORT = process.env.APP_PORT || 80
 
 const app = express()
 app.use(bodyParser.json())
+app.use(express.static('public'))
 app.use(cors())
 
 app.get('/', (req, res) => {

@@ -1,0 +1,10 @@
+FROM node:lts-alpine
+
+WORKDIR /node
+COPY package*.json /node/
+RUN npm install
+COPY . /node/
+
+EXPOSE 80
+CMD [ "node", "index.js" ]
+
